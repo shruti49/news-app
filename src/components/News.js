@@ -16,23 +16,28 @@ export default class News extends Component {
 		let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=29bcb89ef0cf4767a929c6b98dd1f7d6&page=${pageno}&pageSize=${this.state.pageSize}`;
 		let data = await fetch(url);
 		let parseData = await data.json();
+		console.log(parseData);
 		this.setState({
-			articles: parseData.articles
+			articles: parseData.articles,
+			totalResults: parseData.totalResults,
 		});
 	};
 
 	handleNextClick = async (e) => {
 		e.preventDefault();
-		this.setState({ pageNo: this.state.pageNo + 1 }, () => {
-			this.fetchData(this.state.pageNo);
-		});
+		if (this.state.pageNo + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) {
+		} else {
+			this.setState({ pageNo: this.state.pageNo + 1 }, () => {
+				this.fetchData(this.state.pageNo);
+			});
+		}
 	};
 
 	handlePrevClick = async (e) => {
 		e.preventDefault();
-			this.setState({ pageNo: this.state.pageNo - 1 }, () => {
-				this.fetchData(this.state.pageNo);
-			});
+		this.setState({ pageNo: this.state.pageNo - 1 }, () => {
+			this.fetchData(this.state.pageNo);
+		});
 	};
 
 	async componentDidMount() {
@@ -42,20 +47,19 @@ export default class News extends Component {
 	render() {
 		return (
 			<div className="container my-3 news__container">
-				<h2 className="">News Monkey - Top Headings</h2>
+				<h2 className="text-center">News Monkey - Top Headings</h2>
 				<nav aria-label="Page navigation example">
 					<ul className="pagination justify-content-end">
-						<li className="page-item">
+						<li className={`page-item ${this.state.pageNo <= 1?"disabled":""}`}>
 							<a
 								href="#"
-								disabled={this.state.pageNo <= 1}
 								className="page-link"
 								onClick={this.handlePrevClick}
 							>
 								Previous
 							</a>
 						</li>
-						<li className="page-item">
+						<li className={`page-item ${this.state.pageNo + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)?"disabled":""}`}>
 							<a href="#" className="page-link" onClick={this.handleNextClick}>
 								Next
 							</a>
