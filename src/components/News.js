@@ -40,7 +40,7 @@ export default class News extends Component {
 			pageNo: 1,
 			totalResults: 0,
 		};
-		document.title = `NewsMonkey - ${this.capitalizeText(this.props.category)}`;
+		document.title = `News Flash - ${this.capitalizeText(this.props.category)}`;
 	}
 
 	fetchData = async () => {
@@ -75,7 +75,7 @@ export default class News extends Component {
 
 	fetchMoreData = async () => {
 		this.setState({ pageNo: this.state.pageNo + 1 });
-		let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=29bcb89ef0cf4767a929c6b98dd1f7d6&page=${this.state.pageNo}&pageSize=${this.props.noOfArticles}`;
+		let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.pageNo}&pageSize=${this.props.noOfArticles}`;
 		let data = await fetch(url);
 		let parseData = await data.json();
 		this.setState({
@@ -88,7 +88,7 @@ export default class News extends Component {
 		return (
 			<>
 				<h2 className="text-center my-3">
-					News Monkey - Top Headings {`(${this.capitalizeText(this.props.category)})`}
+					Top Headings {`(${this.capitalizeText(this.props.category)})`}
 				</h2>
 				{this.state.loading && <Spinner />}
 

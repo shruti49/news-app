@@ -20,7 +20,7 @@ export default class App extends Component {
 			<Router>
 				<div className="app">
 					<LoadingBar height={3} color="#f11946" progress={this.state.progress} />
-					<Navbar />
+					<Navbar title="News Flash"/>
 					<Switch>
 						<Route exact path="/">
 							<News
